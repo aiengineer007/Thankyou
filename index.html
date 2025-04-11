@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thank You!</title>
+  <style>
+    /* Global Styles */
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+    }
+    /* Container & Perspective */
+    .container {
+      position: relative;
+      width: 90%;
+      max-width: 320px;
+      perspective: 1500px;
+      text-align: center;
+    }
+    /* Envelope */
+    .envelope {
+      width: 100%;
+      height: 200px;
+      position: relative;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+    /* Flap (top cover) */
+    .flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: #ff8fa3;
+      border: 2px solid #e0e0e0;
+      border-bottom: none;
+      transform-origin: top;
+      transition: transform 1s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transform: rotateX(0deg); /* closed */
+    }
+    .flap.open {
+      transform: rotateX(-180deg);
+    }
+    /* Pocket (bottom part) */
+    .pocket {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #ffe2e9;
+      border: 2px solid #e0e0e0;
+      border-top: none;
+    }
+    /* Letter (inside the envelope) */
+    .letter {
+      position: absolute;
+      top: 25%;
+      left: 50%;
+      width: 85%;
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      box-sizing: border-box;
+      opacity: 0;
+      transform: translate(-50%, 100%);
+      transition: transform 1s ease, opacity 1s ease;
+    }
+    .letter.open {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background-color: #f5a623;
+      top: 0;
+      opacity: 0;
+      animation: confettiFall 3s ease-out forwards;
+      pointer-events: none;
+    }
+    @keyframes confettiFall {
+      0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+      100% { opacity: 0; transform: translateY(400px) rotate(720deg); }
+    }
+    /* Responsive adjustments */
+    @media (max-width: 400px) {
+      .container { max-width: 280px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Envelope Container -->
+  <div class="container" id="envelopeContainer">
+    <div class="envelope" id="envelope">
+      <div class="flap" id="flap"></div>
+      <div class="pocket"></div>
+      <div class="letter" id="letter">
+        <p style="font-size: 13px; color: #444; margin: 0;">
+          Thank you for being my unpaid therapist.<br>
+          Thank you for listening to my endless rants and for laughing at my terrible jokes.<br>
+          It's only been a few days, yet it feels like I've known you for years. :)<br>
+          You're important (samjh jao warna larai hojayegi)<br>
+          Always keep smiling—it suits you the most :))<br>
+          And I will keep annoying you (imagine laughing emojis here 😆😆😆)<br>
+          Thank you for being such a pure soul.<br>
+          <strong>You’re truly the best!</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Audio (One Direction "Strong") -->
+  <audio id="background-music" src="https://drive.google.com/uc?export=download&id=1yvoKt3XdyQL6nDVDesg6m8nUaf9Q1uWe"></audio>
+
+  <script>
+    // Trigger envelope open on click
+    document.getElementById("envelopeContainer").addEventListener("click", function() {
+      var flap = document.getElementById("flap");
+      var letter = document.getElementById("letter");
+      var audio = document.getElementById("background-music");
+      
+      // Only open if not already open
+      if (!flap.classList.contains("open")) {
+        flap.classList.add("open");
+        letter.classList.add("open");
+        audio.play();
+        launchConfetti();
+      }
+    });
+
+    // Confetti Launch Function
+    function launchConfetti() {
+      for (let i = 0; i < 30; i++) {
+        let confetti = document.createElement("div");
+        confetti.className = "confetti";
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.backgroundColor = randomColor();
+        document.body.appendChild(confetti);
+        setTimeout(() => { confetti.remove(); }, 3000);
+      }
+    }
+
+    // Helper to choose random color
+    function randomColor() {
+      const colors = ['#fce38a', '#ff8fa3', '#f38181', '#95e1d3', '#eaafc8'];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+  </script>
+
+</body>
+</html>
